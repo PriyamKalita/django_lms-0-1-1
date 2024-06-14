@@ -9,6 +9,23 @@ from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+def my_view(request):
+    try:
+        logger.info('View started')
+        
+        # Your view logic here
+        result = perform_some_operation()
+        
+        logger.info('View completed successfully')
+        return JsonResponse({'success': True, 'data': result})
+    except Exception as e:
+        logger.error('Error occurred: %s', e)
+        return JsonResponse({'error': 'Internal Server Error'}, status=500)
+
 def context_data(request):
     fullpath = request.get_full_path()
     abs_uri = request.build_absolute_uri()
